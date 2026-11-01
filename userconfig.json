@@ -1,0 +1,107 @@
+{
+    "colors": {
+        "sky": "0x87CEEB",
+        "blue": "0x0000FF",
+        "white": "0xFFFFFF",
+        "black": "0x000000",
+        "purple": "0x7777FF",
+        "green": "0x2d5016",
+        "red": "0xFF0000",
+        "orange": "0xFFA500",
+        "gray": "0x808080",
+        "pink": "0xFFC0CB",
+        "yellow": "0xFFFF00"
+    },
+    "groups": [
+        "GENERAL",
+        "CODING",
+        "GAMING",
+        "SYSTEM"
+    ],
+    "apps": [
+        {
+            "group": "GENERAL",
+            "text": "Cosmic Editor",
+            "cmd": "cosmic-edit &",
+            "rect_color": "purple",
+            "text_color": "white"
+        },
+        {
+            "group": "GENERAL",
+            "text": "File Manager",
+            "cmd": "dolphin &",
+            "rect_color": "purple",
+            "text_color": "white"
+        },
+        {
+            "group": "GENERAL",
+            "text": "Web Browser",
+            "cmd": "brave &",
+            "rect_color": "purple",
+            "text_color": "white"
+        },
+        {
+            "group": "CODING",
+            "text": "Terminal",
+            "cmd": "xterm &",
+            "rect_color": "black",
+            "text_color": "white"
+        },
+        {
+            "group": "CODING",
+            "text": "IntelliJ IDEA",
+            "cmd": "/home/johan/softwares/idea2026/bin/idea &",
+            "rect_color": "sky",
+            "text_color": "white"
+        },
+        {
+            "group": "CODING",
+            "text": "VSC",
+            "cmd": "code &",
+            "rect_color": "sky",
+            "text_color": "white"
+        },
+        {
+            "group": "GAMING",
+            "text": "Steam",
+            "cmd": "steam &",
+            "rect_color": "blue",
+            "text_color": "white"
+        },
+        {
+            "group": "GAMING",
+            "text": "Minecraft",
+            "cmd": "prismlauncher &",
+            "rect_color": "green",
+            "text_color": "white"
+        },
+        {
+            "group": "GAMING",
+            "text": "Discord",
+            "cmd": "discord &",
+            "rect_color": "blue",
+            "text_color": "white"
+        },
+        {
+            "group": "SYSTEM",
+            "text": "Update OS",
+            "cmd": "xterm -e bash -i -c 'updateos' &",
+            "rect_color": "green",
+            "text_color": "white"
+        },
+        {
+            "group": "SYSTEM",
+            "text": "Reboot",
+            "cmd": "reboot",
+            "rect_color": "blue",
+            "text_color": "white"
+        },
+        {
+            "group": "SYSTEM",
+            "text": "Shutdown",
+            "cmd": "shutdown -h now",
+            "rect_color": "red",
+            "text_color": "white"
+        }
+    ]
+}
