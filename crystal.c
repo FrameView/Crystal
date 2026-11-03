@@ -5,8 +5,9 @@
 
 App apps[MAX_APPS];
 Color colors[MAX_COLORS];
+Music musics[MAX_MUSICS];
 c8 groups[MAX_GROUPS][16];
-u8 app_count, color_count, group_count;
+u8 app_count, color_count, music_count, group_count;
 
 Display *dp;
 Window win;

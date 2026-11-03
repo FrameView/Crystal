@@ -273,6 +273,77 @@ void parse_apps(const c8 *buf) {
 }
 
 
+void parse_musics(const c8 *buf) {
+    printf("Scanning for musics section...\n");
+    
+    const c8 *musics_pos = find_next(buf, "\"musics\"");
+    if (!musics_pos) {
+        printf("No musics section found\n");
+        return;
+    }
+    
+    // Find the opening brace
+    musics_pos = find_next(musics_pos, "{");
+    if (!musics_pos) return;
+    musics_pos++;
+    
+    // Find closing brace
+    const c8 *musics_end = find_next(musics_pos, "}");
+    if (!musics_end) return;
+    
+    music_count = 0;
+    const c8 *p = musics_pos;
+    
+    while (p < musics_end && music_count < MAX_MUSICS) {
+        // Look for opening quote (start of music name)
+        p = find_next(p, "\"");
+        if (!p || p >= musics_end) break;
+        p++;
+        
+        // Extract music name until closing quote
+        c8 music_name[32];
+        u8 i = 0;
+        while (*p && *p != '"' && i < 31) {
+            music_name[i++] = *p++;
+        }
+        music_name[i] = '\0';
+        if (*p != '"') break;
+        p++;  // Skip closing quote
+        
+        // Find the colon
+        p = find_next(p, ":");
+        if (!p || p >= musics_end) break;
+        p++;
+        
+        // Find the opening quote of the link
+        p = find_next(p, "\"");
+        if (!p || p >= musics_end) break;
+        p++;
+        
+        // Extract music link until closing quote
+        c8 music_link[64];
+        i = 0;
+        while (*p && *p != '"' && i < 63) {
+            music_link[i++] = *p++;
+        }
+        music_link[i] = '\0';
+        
+        // Store music
+        strcpy(musics[music_count].name, music_name);
+        strcpy(musics[music_count].link, music_link);
+        printf("Music: %s => %s\n", music_name, music_link); 
+        music_count++;
+        
+        // Move to next value (skip past this link)
+        if (*p == '"') p++;
+        
+        // Skip comma if present
+        const c8 *comma = find_next(p, ",");
+        if (comma && comma < musics_end) p = comma + 1;
+    }
+}
+
+
 static c8 config_buffer[32768];
 void load_config(const c8 *config) {
     FILE *file = fopen(config, "r");
@@ -295,7 +366,10 @@ void load_config(const c8 *config) {
     
     printf("Parsing apps...\n");
     parse_apps(config_buffer);
+
+    printf("Parsing musics...\n");
+    parse_musics(config_buffer);
     
-    printf("\nLoaded: %d colors, %d groups, %d apps\n\n", 
-           color_count, group_count, app_count);
+    printf("\nLoaded: %d colors, %d groups, %d apps, %d musics\n\n", 
+           color_count, group_count, app_count, music_count);
 }

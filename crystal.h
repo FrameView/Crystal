@@ -24,12 +24,23 @@
 #define MAX_GROUPS 8
 #define MAX_APPS 64
 #define MAX_COLORS 32
+#define MAX_MUSICS 250
+#define MUSIC_X 1700
+#define MUSIC_Y 20
+#define MUSIC_LINE_H 16
+#define MUSIC_W 120
+#define MUSIC_ASCENT 12
 
 
 typedef struct {
     u32 rgb;
     c8 name[16];
 } Color;
+
+typedef struct {
+    c8 link[64];
+    c8 name[32];
+} Music;
 
 typedef struct {
     c8 group[16];
@@ -57,8 +68,9 @@ typedef struct {
 
 extern App apps[MAX_APPS];
 extern Color colors[MAX_COLORS];
+extern Music musics[MAX_MUSICS];
 extern c8 groups[MAX_GROUPS][16];
-extern u8 app_count, color_count, group_count;
+extern u8 app_count, color_count, music_count, group_count;
 
 extern Display *dp;
 extern Window win;

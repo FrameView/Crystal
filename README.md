@@ -1,10 +1,12 @@
-# Crystal
+# Crystal (Linux only)
 
 [Features] 
 
--> Run any binaries or linux commands!
+-> Launch your daily apps, linux commands, and background youtube musics!
 
--> Manage apps, groups and colors through userconfig.json! 
+-> Manage apps, groups, musics and colors through a single JSON file! 
+
+(see userconfig.json for examples)
 
 -> Switch between dark and light mode as needed!
 
@@ -18,4 +20,4 @@ $ gcc -Wall -Wextra crystal.c json.c ui.c -o crystal -lX11
 
 -> Create the following directory : $HOME/.config/crystal/ 
 
--> Place your config file inside before running Crystal
+-> Place your userconfig.json inside before running Crystal

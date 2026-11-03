@@ -3,7 +3,19 @@
 
 static AppBlock blocks[MAX_APPS];
 static u8 block_count;
-static ModeSwitch sw = {0xDDDDDD, 0x000000, 10, 10, false, "Switch mode"};
+static ModeSwitch sw = {0xDDDDDD, 0x000000, 10, 10, false, "SWITCH MODE"};
+
+static b8 music_open = false;
+static i32 music_sel  = -1;
+
+static u16 music_row_y(u8 i) {
+    return MUSIC_Y + (i + 1) * MUSIC_LINE_H;
+}
+
+static b8 hit_music_row(u16 x, u16 y, u16 row_y) {
+    return x >= MUSIC_X && x < MUSIC_X + MUSIC_W &&
+           y + MUSIC_ASCENT >= row_y && y < row_y + MUSIC_LINE_H - MUSIC_ASCENT;
+}
 
 
 void build_ui(void) {
@@ -60,6 +72,19 @@ void draw_ui(void) {
         }
     }
 
+    XSetForeground(dp, gc, sw.dark ? 0xFFFFFF : 0x000000);
+    XDrawString(dp, win, gc, MUSIC_X, MUSIC_Y, music_open ? "MUSICS {   " : "MUSICS {..}", 11);
+
+    if (music_open) {
+        u8 i;
+        for (i = 0; i < music_count; i++) {
+            c8 label[33];
+            snprintf(label, sizeof label, "%c%s", (i == music_sel) ? '>' : '-', musics[i].name);
+            XDrawString(dp, win, gc, MUSIC_X, music_row_y(i), label, strlen(label));
+        }
+        XDrawString(dp, win, gc, MUSIC_X, music_row_y(i), "}", 1);
+    }
+
     XSetForeground(dp, gc, sw.rect_color);
     XFillRectangle(dp, win, gc, sw.x, sw.y, BUTTON_WIDTH, BUTTON_HEIGHT);
     XSetForeground(dp, gc, sw.text_color);
@@ -78,6 +103,32 @@ void handle_click(u16 x, u16 y) {
             return;
         }
 
+    // click on "[musics]": toggle the list
+    if (hit_music_row(x, y, MUSIC_Y)) {
+        music_open = !music_open;
+        draw_ui();
+        return;
+    }
+
+    // click on an entry (only while the list is open)
+    if (music_open) {
+        for (u8 i = 0; i < music_count; i++) {
+            if (!hit_music_row(x, y, music_row_y(i))) continue;
+
+            music_sel = i;
+            c8 cmd[256];
+            snprintf(cmd, sizeof cmd,
+                     "pkill -x mpv; "
+                     "mpv --no-terminal --no-video --ytdl-format=worstaudio "
+                     "'%s' &", musics[i].link);
+            
+            printf("Launching music: %s\n", musics[i].name);
+            (void)system(cmd);
+            draw_ui();
+            return;
+        }
+    }    
+
     for (u8 i = 0; i < block_count; i++) {
         AppBlock *blk = &blocks[i];
 
@@ -92,6 +143,7 @@ void handle_click(u16 x, u16 y) {
 
         } 
     }
+
 
 
 }

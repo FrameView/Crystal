@@ -41,6 +41,13 @@
             "text_color": "white"
         },
         {
+            "group": "GENERAL",
+            "text": "Stop Music",
+            "cmd": "pkill -x mpv",
+            "rect_color": "purple",
+            "text_color": "white"
+        },
+        {
             "group": "CODING",
             "text": "Terminal",
             "cmd": "xterm &",
@@ -103,5 +110,10 @@
             "rect_color": "red",
             "text_color": "white"
         }
-    ]
+    ],
+    "musics": {
+        "zora_waterworks": "https://youtu.be/4wjJn3Gw9O0",
+        "great_sky_island": "https://youtu.be/9E2_OoQM9jQ",
+        "light_dragon": "https://youtu.be/s6HPWlUaFbU"
+    }
 }

@@ -14,14 +14,17 @@ u32 parse_color_hex(const c8 *str);
 // Find color index by name
 u8 find_color_idx(const c8 *name);
 
-// Parse colors: { "name": "0xHEX", "name": "0xHEX", ... }
+// Parse colors: { "name": "0xHEX", ... }
 void parse_colors(const c8 *buf);
 
 // Parse groups: [ "name", "name", ... ]
 void parse_groups(const c8 *buf);
 
-// Parse apps: [ { "field": "value", ... }, ... ]
+// Parse apps: [ { "key": "value", ... }, ... ]
 void parse_apps(const c8 *buf);
+
+// Parse musics: { "name": "link", ... }
+void parse_musics(const c8 *buf);
 
 // Load the config file
 void load_config(const c8 *config);
