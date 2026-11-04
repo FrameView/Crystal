@@ -66,15 +66,26 @@ typedef struct {
 } ModeSwitch;
 
 
-extern App apps[MAX_APPS];
-extern Color colors[MAX_COLORS];
-extern Music musics[MAX_MUSICS];
-extern c8 groups[MAX_GROUPS][16];
-extern u8 app_count, color_count, music_count, group_count;
+App apps[MAX_APPS];
+AppBlock blocks[MAX_APPS];
+Color colors[MAX_COLORS];
+Music musics[MAX_MUSICS];
+c8 groups[MAX_GROUPS][16];
+u8 app_count, block_count, color_count, music_count, group_count;
 
-extern Display *dp;
-extern Window win;
-extern GC gc;
+ModeSwitch sw = {0xDDDDDD, 0x000000, 10, 10, false, "SWITCH MODE"};
+b8 music_open = false;
+i32 music_sel  = -1;
 
+Display *dp;
+Window win;
+GC gc;
+
+
+#include "json.h"
+#include "ui.h"
+
+#include "json.c"
+#include "ui.c"
 
 #endif

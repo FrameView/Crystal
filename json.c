@@ -1,6 +1,3 @@
-#include "crystal.h"
-
-
 const c8* find_next(const c8 *str, const c8 *pattern) {
     return strstr(str, pattern);
 }
@@ -344,9 +341,10 @@ void parse_musics(const c8 *buf) {
 }
 
 
-static c8 config_buffer[32768];
 void load_config(const c8 *config) {
+    c8 config_buffer[32768];
     FILE *file = fopen(config, "r");
+    
     if (!file) {
         fprintf(stderr, "Cannot open: %s\n", config);
         exit(1);

@@ -1,17 +1,5 @@
 #include "crystal.h"
-#include "json.h"
-#include "ui.h"
 
-
-App apps[MAX_APPS];
-Color colors[MAX_COLORS];
-Music musics[MAX_MUSICS];
-c8 groups[MAX_GROUPS][16];
-u8 app_count, color_count, music_count, group_count;
-
-Display *dp;
-Window win;
-GC gc;
 
 
 i32 main(i32 argc, c8 *argv[]) {

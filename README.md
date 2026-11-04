@@ -14,7 +14,7 @@
 
 You can build Crystal using the following command:
 
-$ gcc -Wall -Wextra crystal.c json.c ui.c -o crystal -lX11
+$ gcc crystal.c -o crystal -lX11
 
 [Run] 
 

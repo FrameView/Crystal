@@ -1,23 +1,3 @@
-#include "crystal.h"
-
-
-static AppBlock blocks[MAX_APPS];
-static u8 block_count;
-static ModeSwitch sw = {0xDDDDDD, 0x000000, 10, 10, false, "SWITCH MODE"};
-
-static b8 music_open = false;
-static i32 music_sel  = -1;
-
-static u16 music_row_y(u8 i) {
-    return MUSIC_Y + (i + 1) * MUSIC_LINE_H;
-}
-
-static b8 hit_music_row(u16 x, u16 y, u16 row_y) {
-    return x >= MUSIC_X && x < MUSIC_X + MUSIC_W &&
-           y + MUSIC_ASCENT >= row_y && y < row_y + MUSIC_LINE_H - MUSIC_ASCENT;
-}
-
-
 void build_ui(void) {
     block_count = 0;
     
@@ -143,7 +123,13 @@ void handle_click(u16 x, u16 y) {
 
         } 
     }
+}
 
+u16 music_row_y(u8 i) {
+    return MUSIC_Y + (i + 1) * MUSIC_LINE_H;
+}
 
-
+b8 hit_music_row(u16 x, u16 y, u16 row_y) {
+    return x >= MUSIC_X && x < MUSIC_X + MUSIC_W &&
+           y + MUSIC_ASCENT >= row_y && y < row_y + MUSIC_LINE_H - MUSIC_ASCENT;
 }
