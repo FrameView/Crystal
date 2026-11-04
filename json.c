@@ -321,9 +321,9 @@ void parse_musics(const c8 *buf) {
         p++;
         
         // Extract music link until closing quote
-        c8 music_link[64];
+        c8 music_link[128];
         i = 0;
-        while (*p && *p != '"' && i < 63) {
+        while (*p && *p != '"' && i < 127) {
             music_link[i++] = *p++;
         }
         music_link[i] = '\0';

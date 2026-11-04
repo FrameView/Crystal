@@ -38,7 +38,7 @@ typedef struct {
 } Color;
 
 typedef struct {
-    c8 link[64];
+    c8 link[128];
     c8 name[32];
 } Music;
 
