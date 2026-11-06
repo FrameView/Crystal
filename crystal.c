@@ -44,36 +44,43 @@ i32 main(i32 argc, c8 *argv[]) {
     }
 
     Atom wm_delete = XInternAtom(dp, "WM_DELETE_WINDOW", False);
-    
+
     XSetWMProtocols(dp, win, &wm_delete, 1);
     XMapWindow(dp, win);
     XFlush(dp);
-
     build_ui();
     draw_ui();
 
-    printf("Listening for events...\n\n");
-    
     XEvent event;
+    u64 last_minute = 0;
     b8 running = true;
     while (running) {
-        XNextEvent(dp, &event);   // sleeps here until X has an event
 
-        switch (event.type) {
-        case Expose:
-            if (event.xexpose.count == 0) draw_ui();   // one redraw per burst of Expose events
-            break;
-        case ButtonPress:
-            if (event.xbutton.button == Button1)
-                handle_click(event.xbutton.x, event.xbutton.y);
-            break;
-        case ClientMessage:
-            if ((Atom)event.xclient.data.l[0] == wm_delete) running = false;
-            break;
+        while (XPending(dp)) { // handle all pending events, non-blocking
+            XNextEvent(dp, &event);
+            switch (event.type) {
+                case Expose:
+                    if (event.xexpose.count == 0) draw_ui();
+                    break;
+                case ButtonPress:
+                    if (event.xbutton.button == Button1)
+                        handle_click(event.xbutton.x, event.xbutton.y);
+                    break;
+                case ClientMessage:
+                    if ((Atom)event.xclient.data.l[0] == wm_delete) running = false;
+                    break;
+                default:
+                    break;    
+            }
         }
+        u64 minute = time(NULL) / 60;   // redraw once/min for H:M clock
+        if (minute != last_minute) {
+            last_minute = minute;
+            draw_ui();
+        }
+        usleep(100000); // sleep 100 ms for CPU
     }
-
-    if (font) XFreeFont(dp, font);
+    XFreeFont(dp, font);
     XFreeGC(dp, gc);
     XDestroyWindow(dp, win);
     XCloseDisplay(dp);

@@ -19,8 +19,8 @@ void build_ui(void) {
 }
 
 
-void draw_ui(void) {
-    if(sw.dark) {
+void draw_ui() {
+    if (sw.dark) {
         XSetForeground(dp, gc, 0x0D1117);
     } else {
         XSetForeground(dp, gc, 0xCCCCCC);
@@ -53,6 +53,10 @@ void draw_ui(void) {
     }
 
     XSetForeground(dp, gc, sw.dark ? 0xFFFFFF : 0x000000);
+    c8 clock_str[8];
+    t64 now = time(NULL);
+    strftime(clock_str, sizeof clock_str, "%H:%M", localtime(&now));
+    XDrawString(dp, win, gc, 960, MUSIC_Y, clock_str, strlen(clock_str));
     XDrawString(dp, win, gc, MUSIC_X, MUSIC_Y, music_open ? "MUSICS {   " : "MUSICS {..}", 11);
 
     if (music_open) {
@@ -83,7 +87,7 @@ void handle_click(u16 x, u16 y) {
             return;
         }
 
-    // click on "[musics]": toggle the list
+    // click on "musics {..}": toggle the list
     if (hit_music_row(x, y, MUSIC_Y)) {
         music_open = !music_open;
         draw_ui();
